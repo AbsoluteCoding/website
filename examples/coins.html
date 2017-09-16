@@ -2,6 +2,7 @@
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <link rel="stylesheet" type="text/css" href="css/prettify.css"></link>  
 <script src="js/prettify.js"></script>  
+<script src="https://raw.githubusercontent.com/google/code-prettify/master/src/prettify.js"></script>
 <script>
     function styleCode() {
         if (typeof disableStyleCode != 'undefined') { return; }
@@ -83,9 +84,75 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
 <body>
 	<pre>
 		<code>
-public class HelloWorld {
+/**
+ * Java demonstration of the Balancing Coins solution (for 9 coins).
+ * @author Peter
+ */
+import java.util.HashMap;
+import java.util.Random;
+public class BalancingCoins {
+	static HashMap<Integer, Integer> coins = new HashMap<Integer, Integer>();
 	public static void main(String[] args) {
-		System.out.println("Hello World");
+		generateCoins();
+		int oddball = 0;
+		if(coins.get(1) + coins.get(2) == coins.get(3) + coins.get(4)) {
+			if(coins.get(4) + coins.get(5) == coins.get(6) + coins.get(7)) {
+				if(coins.get(1) == coins.get(8)) {
+					oddball = 9;
+				} else {
+					oddball = 8;
+				}
+			} else if (coins.get(4) + coins.get(5) > coins.get(6) + coins.get(7)) {
+				if(coins.get(3) + coins.get(4) == coins.get(5) + coins.get(6)) {
+					oddball = 7;
+				} else if(coins.get(3) + coins.get(4) > coins.get(5) + coins.get(6)) {
+					oddball = 6;
+				} else if(coins.get(3) + coins.get(4) < coins.get(5) + coins.get(6)) {
+					oddball = 5;
+				}
+			} else if (coins.get(4) + coins.get(5) < coins.get(6) + coins.get(7)) {
+				if(coins.get(3) + coins.get(4) == coins.get(5) + coins.get(6)) {
+					oddball = 7;
+				} else if(coins.get(3) + coins.get(4) > coins.get(5) + coins.get(6)) {
+					oddball = 5;
+				} else if(coins.get(3) + coins.get(4) < coins.get(5) + coins.get(6)) {
+					oddball = 6;
+				}
+			}
+		} else {
+			if(coins.get(1) + coins.get(2) == coins.get(5) + coins.get(6)) {
+				if(coins.get(3) == coins.get(5)) {
+					oddball = 4;
+				} else {
+					oddball = 3;
+				}
+			} else {
+				if(coins.get(1) == coins.get(5)) {
+					oddball = 2;
+				} else {
+					oddball = 1;
+				}
+			}
+		}
+		
+		System.out.println("Coin " + oddball + " is the oddball");
+	}
+	
+	/**
+	 * This method randomly generates nine coins, one of which is an oddball
+	 * and has a different weight than the others.
+	 */
+	public static void generateCoins() {
+		Random rand = new Random();
+		int randomNum = rand.nextInt(9) + 1; //generates random number from 1-9
+		System.out.println(randomNum);
+		for(int coinNum = 1; coinNum <= 9; coinNum++) {
+			if(coinNum == randomNum) {
+				coins.put(coinNum, rand.nextInt(70) + 30); //oddball weight is from 30-70
+			} else {
+				coins.put(coinNum, 50); //default weight is 50
+			}
+		}
 	}
 }
 
